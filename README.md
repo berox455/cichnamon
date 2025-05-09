@@ -23,7 +23,7 @@
     	Each moves has a number of uses, showed by it's "charge", if it reaches 0, 
       	it can no longer be used in battle. Each move also has a specific damage value, 
        	which also depends on type advantages. Fire beats grass etc. 
-  	There's also a chance that an attack will miss or that it will crit.
+	There's also a chance that an attack will miss or that it will crit.
     	There will also be moves, which don't do damage but instead heal yourself 
       	or your ally cichnamon or just debuff your opponent. You can choose defense, 
 	where your cichnamon will gain a shield of a power, which depends on it's 
