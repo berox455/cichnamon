@@ -789,9 +789,15 @@ class Trainer:
                 self.won_fights = settings["won_fights"]
                 self.money = settings["money"]
 
-                for cichnamon in settings["owned_cichnamon"]:
-                    self.add_cichnamon(create_cichnamon(cichnamon["cich_class"], cichnamon["name"], cichnamon["lvl"], cichnamon["xp"], cichnamon["hp"]))
+                for owned_cichnamon in settings["owned_cichnamon"]:
+                    cichnamon = create_cichnamon(owned_cichnamon["cich_class"], owned_cichnamon["name"], owned_cichnamon["lvl"], owned_cichnamon["xp"], owned_cichnamon["hp"])
+                    self.add_cichnamon(cichnamon)
                     
+                for boxed_cichnamon in settings["cichbox"]:
+                    cichnamon = create_cichnamon(boxed_cichnamon["cich_class"], boxed_cichnamon["name"], boxed_cichnamon["lvl"], boxed_cichnamon["xp"], boxed_cichnamon["hp"])
+                    cichnamon.owner = self
+                    self.cichbox.append(cichnamon)
+
             return True
         else:
             print("Trainer not found!\n")
@@ -824,46 +830,64 @@ class Trainer:
             cichnamon.owner = self
 
 
-    def cichbox_move(self, cichnamon):
-        print("Welcome to cichbox!!")
+    def cichbox_move(self, first_opened = True):
+        print()
+        if first_opened:
+            print("You opened up the cichbox!!")
+        num = 0
 
-        num = get_num("What would you like to do?")
-        print("\t[1]Take out a Cichnamon")
-        print("\t[2]Put a Cichnamon inside")
-        print("\t[3]Exit cichbox")
-
-        while num < 1 and num > 3:
-            num = get_num("What would you like to do?(again)")
+        while num < 1 or num > 3:
             print("\t[1]Take out a Cichnamon")
             print("\t[2]Put a Cichnamon inside")
             print("\t[3]Exit cichbox")
+            num = get_num("\nChoose:\t", True)
 
         if num == 1:
-            i = 1
-            for cichnamon in self.cichbox:
-                if i != len(cichbox):
-                    print("[" + i + "] " + cichnamon, end=", ")
+            if len(self.cichbox) > 0:
+                i = 1
+                print()
+                for cichnamon in self.cichbox:
+                    if i != len(self.cichbox):
+                        print("[" + str(i) + "] ", end="")
+                        cichnamon.show_stats()
+                        print(", ")
+
+                    else:
+                        print("[" + str(i) + "] ", end="")
+                        cichnamon.show_stats()
+                    i += 1
+
+                cich_num = get_num("Which Cichnamon do you want to take out? [0 to go back]")
+
+                while cich_num < 0 or cich_num > len(self.cichbox):
+                    cich_num = get_num("Which Cichnamon do you want to take out? [0 to go back](again)")
+
+                if cich_num == 0:
+                    print("You return back.")
                 else:
-                    print("[" + i + "] " + cichnamon)
-                i += 1
-
-            cich_num = get_num("Which Cichnamon do you want to take out? [0 to go back]")
-
-            while cich_num < 0 and cich_num > len(self.cichbox):
-                cich_num = get_num("Which Cichnamon do you want to take out? [0 to go back](again)")
-
-            self.add_cichnamon[cichbox[cich_num]]
+                    self.add_cichnamon(self.cichbox.pop(cich_num - 1))
+            else:
+                print("You don't have any Cichnamon inside the cichbox!!") 
+            return True
         elif num == 2:
-            self.show_owned_cichnamon()
+            if len(self.owned_cichnamon) > 1:
+                self.show_owned_cichnamon()
 
-            cich_num = get_num("Which Cichnamon do you want to put in the cichbox? [0 to go back]")
+                cich_num = get_num("Which Cichnamon do you want to put in the cichbox? [0 to go back]")
 
-            while cich_num < 0 and cich_num > len(self.owned_cichnamon):
-                cich_num = get_num("Which Cichnamon do you want to put in the cichbox? [0 to go back](again)")
+                while cich_num < 0 or cich_num > len(self.owned_cichnamon):
+                    cich_num = get_num("Which Cichnamon do you want to put in the cichbox? [0 to go back](again)")
 
-            self.cichbox.append(self.owned_cichnamon.pop(cich_num - 1))
+                if cich_num == 0:
+                    print("You return back.")
+                else:
+                    self.cichbox.append(self.owned_cichnamon.pop(cich_num - 1))
+            else:
+                print("You can't put your only Cichnamon into the cichbox!!")
+                print("You can only put a Cichnamon inside, if you have more than one with you!!")
+            return True
         elif num == 3:
-
+            print("You exit the cichbox\n")
 
 
     def remove_cichnamon(self, cichnamon):
@@ -1101,7 +1125,7 @@ class Trainer:
         #removes remaining shield from any cichnamon, which engaged in the fight
         for cichnamon in self.owned_cichnamon:
             if cichnamon.shield > 0:
-                print(cichnamon.name, "'s shield has dissipated!", sep="")
+                print(cichnamon.name, "'s shield has dissipated!\n", sep="")
                 cichnamon.shield = 0
                 cichnamon.shield_cooldown = 0
         wild_cichnamon.shield = 0
@@ -1174,7 +1198,7 @@ def get_num(text, leave_it_as_it_is = False):
         num = input(text)
     else:
         print(text.strip(":"))
-        num = input("\t: ")
+        num = input("\n\t: ")
 
     while num.isnumeric() is False:
         print("\"", num, "\"", " isn't a number. Please enter a number.\n", sep="")
@@ -1182,7 +1206,7 @@ def get_num(text, leave_it_as_it_is = False):
             num = input(text)
         else:
             print(text.strip(":"))
-            num = input("\t: ")
+            num = input("\n\t: ")
 
     return int(num)
 
@@ -1192,7 +1216,7 @@ def get_response(text, max_length = 1000, leave_it_as_it_is = False):
         response = input(text)[:max_length]
     else:
         print(text.strip(":"))
-        response = input("\t: ")[:max_length]
+        response = input("\n\t: ")[:max_length]
 
     while response.isalpha() is False:
         print("\"", response, "\"", " isn't comprized of only alphabetical characters.\n", sep="")
@@ -1200,7 +1224,7 @@ def get_response(text, max_length = 1000, leave_it_as_it_is = False):
             response = input(text)[:max_length]
         else:
             print(text.strip(":"))
-            response = input("\t: ")[:max_length]
+            response = input("\n\t: ")[:max_length]
     
     return response
 
@@ -1517,12 +1541,27 @@ def go_cichcenter():
     print("Welcome to Cichcenter!!")
 
     for trainer in trainers:
-        enter = get_y_or_n(trainer.name + " do you want to restore your Cichnamon? [y][n]\t")
+        print("\n" + trainer.name + ", what do you want to do here?")
 
-        if enter == "y":
+        print("\t[1]Restore Cichnamon")
+        print("\t[2]Open cichbox")
+        print("\t[3]Restore and open cichbox")
+
+        center_choice = get_num("\nChoose:\t", True)
+
+        if center_choice == 1:
             trainer.owned_cichnamon_restoration()
-            input("...")
-        
+        elif center_choice == 2:
+            go_back = trainer.cichbox_move()
+            while go_back:
+                go_back = trainer.cichbox_move(False)
+        elif center_choice == 3:
+            trainer.owned_cichnamon_restoration()
+
+            go_back = trainer.cichbox_move()
+            while go_back:
+                go_back = trainer.cichbox_move(False)
+     
 
 def find_cichnamon():
     find_texts = [
@@ -1553,6 +1592,7 @@ def find_cichnamon():
             print(trainer.name + random.choice(find_texts), wild_cichnamon.name + "!")
 
             defeated = trainer.wild_fight(wild_cichnamon)
+            print()
 
             if defeated and random.random() <= 0.2:
                 print("\nYou've got the chance to keep wild", wild_cichnamon.name + "!")
@@ -1562,7 +1602,7 @@ def find_cichnamon():
                 keep = get_y_or_n(trainer.name + ", do you want to keep " + wild_cichnamon.name + "?" + " [y][n]\t")
 
                 if keep == "y":
-                    name = get_response("What do you want to name your newly found cichnamon?[max length is 20 char]\n\t", 20)
+                    name = get_response("What do you want to name your newly found cichnamon?[max length is 20 char]\t", 20)
                     trainer.add_cichnamon(create_cichnamon(wild_cichnamon.name, name, wild_cichnamon.lvl, wild_cichnamon.xp))
                     print()
                 did_find.append("yes")
@@ -1570,14 +1610,15 @@ def find_cichnamon():
                 did_find.append("no")
 
                 print("But you weren't able to catch the fainted cichnamon!\n")
+            else:
+                did_find.append("no")
         else:
             defeated = False
             
             print("But", trainer.name, "doesn't find any Cichnamon.")
             input("...")
+            print()
             did_find.append("no")
-
-        
 
     if did_find[-1] == "no":
         print("\n" + random.choice(end_texts))
@@ -1592,7 +1633,7 @@ def show_trainer_stats():
     while name_exi is False:
         print("\nWrite the name of a trainer to show statistics for", end=" ")
         print_trainer_names()           
-        trainer_name = get_response("\tChoose: ",leave_it_as_it_is = True)
+        trainer_name = get_response("\n\tChoose: ",leave_it_as_it_is = True)
 
         for trainer in trainers:
             if trainer_name[0].upper() + trainer_name[1:].lower() == trainer.name:
@@ -1610,7 +1651,9 @@ def show_trainer_stats():
         if show_cichnamon == "y":
             print()
             for cichnamon in trainer.owned_cichnamon:
-                cichnamon.show_stats(show_advanced = True, show_move_set = True, show_cichclass = True) 
+                cichnamon.show_stats(show_advanced = True, show_move_set = True, show_cichclass = True)
+                input("...")
+                print() 
             
         
         
@@ -1619,7 +1662,7 @@ def whats_next(ini = False):
         print("\nWhat do you want to do next?")
     print("\t[0]Save")
     print("\t[1]Fight")
-    print("\t[2]Go to a cichcenter and restore all Cichnamon")
+    print("\t[2]Go to a cichcenter (Cichnamon restoration and cichbox)")
     print("\t[3]Venture into the wild to try and find a Cichnamon")
     print("\t[4]Show statistics and Cichnamon of a trainer")
     print("\t[5]Create an additional trainer")
@@ -1676,7 +1719,7 @@ print()
 #creating moves
 water_gun = Move("water-gun", "water", 20, True, 4)
 water_slap = Move("water-slap", "water", 20, False, 4)
-tackle = Move("tackle", "normal", 20, False, 4, 0.95)
+tackle = Move("tackle", "normal", 20, False, 4)
 leaf_shuriken = Move("leaf-shuriken", "grass", 20, True, 4)
 fire_fist = Move("fire-fist", "fire", 20, False, 4)
 thorns = Move("thorns", "grass", 4, False, 5, 1, 0.06)
@@ -1686,7 +1729,7 @@ fireball = Move("fireball", "fire", 15, True, 5, 0.7, 0.05)
 burning_lick = Move("burning-lick", "fire", 20, False, 4)
 whip = Move("whip", "normal", 20, False, 4, 0.8, 0.06)
 seed_bombs = Move("seed-bombs", "grass", 10, True, 6, 0.5, 0.01)
-bite = Move("bite", "normal", damage=5)
+bite = Move("bite", "normal", damage=5, accuracy= 0.9)
 touch_of_beauty = Move("touch of beauty", "grass", damage=3)
 smell_overpower = Move("smell overpower", "water", 8, True, 6, 0.75)
 cuteness_overload = Move("cuteness overload", "grass", 10, True, 5, crit_chance=0.05)
