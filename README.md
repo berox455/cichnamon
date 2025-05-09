@@ -14,9 +14,10 @@
     
     Once you've created your trainers and made a starter choice, you have 7 options:
     
-      #0 Save - If you've just created your trainers, this saves them. 
-  	If you don't want to loose progress it saves it. Just a save. Doesn't end the game.
-   	#1 Fight - here you choose 2 trainers, who will then fight with their cichnamon.
+    #0 Save - If you've just created your trainers, this saves them. 
+    	If you don't want to loose progress it saves it. Just a save. Doesn't end the game. 
+    
+    #1 Fight - here you choose 2 trainers, who will then fight with their cichnamon.
     	You can attack, which will let you choose from your cichnamons moves, if a cichnamon 
     	defeats other cichnamon, then they gain xp which contributes to leveling up.
     	Each moves has a number of uses, showed by it's "charge", if it reaches 0, 
