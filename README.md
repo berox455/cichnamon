@@ -1,4 +1,4 @@
-# cichnamon
+# Cichnamon
         --- This is a readme file for cichnamon.py ---
     - depedencies of this python game: 
         - you need to isntall numpy
