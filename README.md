@@ -45,7 +45,9 @@
 #5 Create a trainer 
 
 	- if you want to create another trainer, then you can do so here.
-#6 Save and exit - saves your progress and then exits from the game.
+#6 Save and exit 
+
+	- saves your progress and then exits from the game.
 Please save your game
 
 	Just a last thing, there is a slight chance, that a bug exists and that would ruin your progress if you haven't saved.
