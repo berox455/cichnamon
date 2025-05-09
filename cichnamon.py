@@ -1355,6 +1355,7 @@ def tutorial():
     print("\t- Restore HP and move charges of your Cichnamon, or not, if you dare.")
     print("\t- Contains Cichnamon, which you could carry with you.")
     print("\t- You can also put Cichnamon inside and take them out as well.")
+    
 
     print("  #3 Venture into the wilds")
     print("\t- Explore with friends for a chance to find Cichnamon.")
