@@ -29,13 +29,15 @@
 	where your cichnamon will gain a shield of a power, which depends on it's 
   	defense and can only be chosen if it doesn't already have a shield active.
     	You can also switch between your cichnamon, if you have more than one. 
-      	(max number of cichnamon for one trainer is 6) Or you can run away, 
+      	(max number of cichnamon for one trainer is 6) Or you can run away,
 	which ends the battle and the trainer running away automatically loses.
-    	Once a fight has come to an end to winner gets money from the loser. (300 $ normally, 450 for running away)
+    	Once a fight has come to an end to winner gets money from the loser. 
+     	(300 $ normally, 450 for running away)
 
      #2 Cichcenter - here you can restore your cichnamons HP and move charge or not, if you dare.
      
-     #3 Venture into the wilds - here you and your friends can go into the wilds and try to find a random cichnamon.
+     #3 Venture into the wilds - here you and your friends can go into the wilds
+     	to try to find a random cichnamon.
      
      #4 Show trainer statistics - will show you your stats and cichnamon.
      
@@ -43,7 +45,8 @@
      
      #6 Save and exit - saves your progress and then exits from the game.
      
-     Just a last thing, there is a slight chance, that a bug exists and that would ruin your progress if you haven't saved.
+     Just a last thing, there is a slight chance, that a bug exists, 
+     which would ruin your progress if you haven't saved.
      So save ocasionally please!!
      
      That's all all you need to know. Have fun!
