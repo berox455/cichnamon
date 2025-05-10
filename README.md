@@ -50,3 +50,4 @@
      So save ocasionally please!!
      
      That's all all you need to know. Have fun!
+     PS.: This is a school project, so don't sue me Nintendo pls
