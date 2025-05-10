@@ -1622,7 +1622,11 @@ def find_cichnamon():
             cich_pool = list(CICH_EXI.keys())
             cich = choice(cich_pool, 1, replace = False, p = [1/10, 1/10, 1/10, 1/10, 1/10, 1/10, 1/10, 1/10, 1/10, 1/30, 1/30, 1/30])
             cich = cich[0] #because cich is created as a numpy.array
-            trainer_lvl = trainer.get_average_cichnamon_lvl()
+            if len(trainer.owned_cichnamon) > 1:
+                cich_at_trainer = len(trainer.owned_cichnamon) - 1
+                trainer_lvl = trainer.get_average_cichnamon_lvl() + cich_at_trainer
+            else:
+                trainer_lvl = trainer.get_average_cichnamon_lvl()
             lvl_range = [trainer_lvl - 1, trainer_lvl, trainer_lvl + 1, trainer_lvl + 2]
 
             wild_cichnamon = create_cichnamon(cich, cich, random.choice(lvl_range))
