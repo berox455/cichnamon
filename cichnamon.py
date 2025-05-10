@@ -186,9 +186,9 @@ class Cichnamon:
         check = [True, shield_cooldown]
         while check[0]:
             if shield_cooldown > 0:
-                adsr = input("\t[1] for attack\n\t[2] for defense\ton cooldown: " + str(shield_cooldown) + " turn left\n\t[3] to switch your Cichnamon\n\t[4] to run away\nChoose one: ")
+                adsr = input("\t[1] Attack\n\t[2] Defense | on cooldown: " + str(shield_cooldown) + " turn left\n\t[3] Switch your Cichnamon\n\t[4] Run away\nChoose one: ")
             else:
-                adsr = input("\t[1] for attack\n\t[2] for defense\n\t[3] to switch your Cichnamon\n\t[4] to run away\nChoose one: ")
+                adsr = input("\t[1] Attack\n\t[2] Defense\n\t[3] Switch your Cichnamon\n\t[4] Run away\nChoose one: ")
             check = self.check_adsr(adsr, shield_cooldown)
                 
         adsr = int(adsr)
@@ -229,7 +229,7 @@ class Cichnamon:
                 attacked = self.go_attack(enemy, self.move_set[choice-1])
                 
                 while attacked is False:
-                    choice = random.int(len(self.move_set - 1))
+                    choice = random.randint(len(self.move_set - 1))
                     attacked = self.go_attack(enemy, self.move_set[choice-1])
             else:
                 self.show_move_set()
@@ -451,7 +451,7 @@ class Cichnamon:
             print("Sp_defense:", int(self.sp_defense))
             if wild is False:
                 print("Xp required to lvl up:", int(self.max_xp))
-                print("Xp:", round(self.xp, 0))
+                print("Xp:", int(self.xp))
             print("---------------------------------")
         else:
             print("Name:", self.name, end="\t")
@@ -469,7 +469,7 @@ class Cichnamon:
                     print()
             
                 print("Lvl:", self.lvl, end="\t")
-                print("Xp:", round(self.xp, 0), "/", int(self.max_xp))
+                print("Xp:", int(self.xp), "/", int(self.max_xp))
             else:
                 print("Lvl:", int(self.lvl), "\tHp:", self.hp, "/", self.max_hp)
             print("---------------------------------")
@@ -1013,7 +1013,6 @@ class Trainer:
                 run_or_switch = self.owned_cichnamon[self_choice-1].battle(enemy_trainer.owned_cichnamon[enemy_choice-1])
 
                 if run_or_switch[0] is False and run_or_switch[1] != "":
-                    print(run_or_switch, "Yup there is a problem")
                     break
 
                 variable += 1
@@ -1052,10 +1051,14 @@ class Trainer:
 
         #removes remaining shield from any Cichnamon, which engaged in the fight
         for cichnamon in self.owned_cichnamon:
-            cichnamon.shield = 0
+            if cichnamon.shield != 0:
+                cichnamon.shield = 0
+                print(cichnamon.name, "'s shield has dissipated!\n", sep="")
             cichnamon.shield_cooldown = 0
         for cichnamon in enemy_trainer.owned_cichnamon:
-            cichnamon.shield = 0
+            if cichnamon.shield != 0:
+                cichnamon.shield = 0
+                print(cichnamon.name, "'s shield has dissipated!\n", sep="")
             cichnamon.shield_cooldown = 0
 
         self.fights += 1
@@ -1111,10 +1114,13 @@ class Trainer:
                     else:
                         print("\n~Cichnamon fainted while trying to switch~\n")
                 elif run_or_switch[0] is False:
-                    break
+                    self_choice = self.fight_client()
             else:
                 self_choice = self.fight_client()
             run_or_switch = self.owned_cichnamon[self_choice-1].battle(wild_cichnamon, wild = True)
+
+            if run_or_switch[0] is False and run_or_switch[1] != "":
+                    break
 
             variable += 1
         
@@ -1134,10 +1140,10 @@ class Trainer:
         
         #removes remaining shield from any Cichnamon, which engaged in the fight
         for cichnamon in self.owned_cichnamon:
-            if cichnamon.shield > 0:
+            if cichnamon.shield != 0:
                 print(cichnamon.name, "'s shield has dissipated!\n", sep="")
                 cichnamon.shield = 0
-                cichnamon.shield_cooldown = 0
+            cichnamon.shield_cooldown = 0
         wild_cichnamon.shield = 0
 
         self.fights_wild += 1       
