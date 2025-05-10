@@ -164,10 +164,10 @@ class Cichnamon:
             print("~~~\nPlease enter a number between 1 and 4\n~~~")
             return True, shield_cooldown
         elif int(adsr) == 2 and self.shield > 0:
-            print("~~~\nYou can only choose defense if your cichnamons defense has become zero!!\n~~~")
+            print("~~~\nYou can only choose defense if your Cichnamons defense has become zero!!\n~~~")
             return True, shield_cooldown
         elif int(adsr) == 3 and len(self.owner.owned_cichnamon) == 1:
-            print("~~~\nYou can only switch if you have more than 1 cichanmon!!\n~~~")
+            print("~~~\nYou can only switch if you have more than 1 Cichanmon!!\n~~~")
             return True, shield_cooldown
         elif int(adsr) == 2 and shield_cooldown > 0:
             print("~~~\nShield is on cooldown, ", shield_cooldown, " turn(s) left!!\n~~~", sep="")
@@ -185,7 +185,10 @@ class Cichnamon:
         shield_cooldown = self.shield_cooldown
         check = [True, shield_cooldown]
         while check[0]:
-            adsr = input("\t[1] for attack\n\t[2] for defense\n\t[3] to switch your Cichnamon\n\t[4] to run away\nChoose one: ")
+            if shield_cooldown > 0:
+                adsr = input("\t[1] for attack\n\t[2] for defense\ton cooldown: " + str(shield_cooldown) + " turn left\n\t[3] to switch your Cichnamon\n\t[4] to run away\nChoose one: ")
+            else:
+                adsr = input("\t[1] for attack\n\t[2] for defense\n\t[3] to switch your Cichnamon\n\t[4] to run away\nChoose one: ")
             check = self.check_adsr(adsr, shield_cooldown)
                 
         adsr = int(adsr)
@@ -461,7 +464,7 @@ class Cichnamon:
                 print("Hp:", int(self.hp), "/", int(self.max_hp), end="\t")
 
                 if self.shield > 0:
-                    print("+", int(self.shield))
+                    print("+", int(self.shield), "shield")
                 else:
                     print()
             
@@ -881,10 +884,10 @@ class Trainer:
             if len(self.cichbox) > 0:
                 self.show_cichbox()
 
-                cich_num = get_num("For which cichnamon do you want to show more stats? [0 to go back]")
+                cich_num = get_num("For which Cichnamon do you want to show more stats? [0 to go back]")
 
                 while cich_num < 0 or cich_num > len(self.cichbox):
-                    cich_num = get_num("For which cichnamon do you want to show more stats? [0 to go back]")
+                    cich_num = get_num("For which Cichnamon do you want to show more stats? [0 to go back]")
 
                 if cich_num == 0:
                     print("You return back.")
@@ -898,14 +901,14 @@ class Trainer:
 
 
     #def remove_cichnamon(self, cichnamon):
-        if cichnamon in self.owned_cichnamon:
-            self.owned_cichnamon.remove(cichnamon)
-            cichnamon.owner = None
-        else:
-            print("Couldn't remove", cichnamon)
-            return
-
-
+    #    if cichnamon in self.owned_cichnamon:
+    #        self.owned_cichnamon.remove(cichnamon)
+    #        cichnamon.owner = None
+    #    else:
+    #        print("Couldn't remove", cichnamon)
+    #        return
+    #
+    #
     def defeated(self):
         num_fainted = 0 #for calculation of fainted cichnamon
 
@@ -939,7 +942,7 @@ class Trainer:
         return round(combined_lvl / length, 0)
 
     
-    def check_choice(self, choice): #used to check if chosen cichnamon in battle can indeed be chosen
+    def check_choice(self, choice): #used to check if chosen Cichnamon in battle can indeed be chosen
         if choice.isdigit() is False:
             print("Please enter a number!")
             return True
@@ -954,9 +957,9 @@ class Trainer:
         print("\t", "--- ", self.name, "'s turn ---", sep="")
         print()
         self.show_owned_cichnamon()
-        choice = input("Choose a cichnamon: ")
+        choice = input("Choose a Cichnamon: ")
         while self.check_choice(choice):
-            choice = input("Choose a cichnamon(again): ")
+            choice = input("Choose a Cichnamon(again): ")
     
         print()
         return int(choice)
@@ -969,10 +972,10 @@ class Trainer:
             print("Couldn't fight",enemy_trainer, "they're non-existent")
             return
         elif len(self.owned_cichnamon) < 1:
-            print("Can't fight without a cichnamon to fight with!!")
+            print("Can't fight without a Cichnamon to fight with!!")
             return
         elif len(enemy_trainer.owned_cichnamon) < 1:
-            print("Can't fight a trainer, who doesn't own any cichnamon!!")
+            print("Can't fight a trainer, who doesn't own any Cichnamon!!")
             return
         elif enemy_trainer.defeated() or self.defeated():
             print("You can't fight with or against a trainer with all fainted Cichnamon!!")
@@ -1047,7 +1050,7 @@ class Trainer:
                 else:
                     print("Idk man, guess the fight has ended even though nobody won yet")
 
-        #removes remaining shield from any cichnamon, which engaged in the fight
+        #removes remaining shield from any Cichnamon, which engaged in the fight
         for cichnamon in self.owned_cichnamon:
             cichnamon.shield = 0
             cichnamon.shield_cooldown = 0
@@ -1129,7 +1132,7 @@ class Trainer:
             else:
                 print("~~~There's a problem within def wild_fight~~~")
         
-        #removes remaining shield from any cichnamon, which engaged in the fight
+        #removes remaining shield from any Cichnamon, which engaged in the fight
         for cichnamon in self.owned_cichnamon:
             if cichnamon.shield > 0:
                 print(cichnamon.name, "'s shield has dissipated!\n", sep="")
@@ -1156,7 +1159,7 @@ class Trainer:
 
     def show_owned_cichnamon(self):
         print()
-        print("--- ", self.name, "'s cichnamon ---", sep="")
+        print("--- ", self.name, "'s Cichnamon ---", sep="")
         print()
         
         i = 1
@@ -1198,7 +1201,7 @@ class Trainer:
     def show_stats(self, show_owned_cichnamon = False):
         print("\t--- Stats ---")
         print("Name:", self.name, end="")
-        print("\t\t# of cichnamon:", len(self.owned_cichnamon))
+        print("\t\t# of Cichnamon:", len(self.owned_cichnamon))
         print("Fights:", self.fights, "Won fights:", self.won_fights, end=" ")
         print("Winrate:", self.get_winrate(), "%")
         print("Money:", self.money, "$")
@@ -1347,7 +1350,7 @@ def create_cichnamon(cichnamon, name, level = 5, xp = 0, hp = None):
     elif cichnamon == "Lily":
         return Lily(name, level, xp, hp)
     else:
-        print("~~~~there is a problem in def create cichnamon~~~~")
+        print("~~~~there is a problem in def create Cichnamon~~~~")
 
 
 def tutorial():
@@ -1595,7 +1598,7 @@ def go_cichcenter():
 def find_cichnamon():
     find_texts = [
         ", while going through some tall grass you've found", 
-        ", while just goofing around a cichnamon showed up,",
+        ", while just goofing around a Cichnamon showed up,",
         ", during your thorough search for Cichnamon, you've actually found",
         ", without even trying you've stumbled into"
     ]
@@ -1631,14 +1634,14 @@ def find_cichnamon():
                 keep = get_y_or_n(trainer.name + ", do you want to keep " + wild_cichnamon.name + "?" + " [y][n]\t")
 
                 if keep == "y":
-                    name = get_response("What do you want to name your newly found cichnamon?[max length is 20 char]\t", 20)
+                    name = get_response("What do you want to name your newly found Cichnamon?[max length is 20 char]\t", 20)
                     trainer.add_cichnamon(create_cichnamon(wild_cichnamon.name, name, wild_cichnamon.lvl, wild_cichnamon.xp))
                     print()
                 did_find.append("yes")
             elif defeated:
                 did_find.append("no")
 
-                print("But you weren't able to catch the fainted cichnamon!\n")
+                print("But you weren't able to catch the fainted Cichnamon!\n")
             else:
                 did_find.append("no")
         else:
@@ -1675,7 +1678,7 @@ def show_trainer_stats():
             print("\"" + trainer_name + "\"", "is not in trainers![there is a mistake in the name]")
             continue
             
-        show_cichnamon = get_y_or_n("Show more stats for each cichnamon? [y][n]\t")
+        show_cichnamon = get_y_or_n("Show more stats for each Cichnamon? [y][n]\t")
 
         if show_cichnamon == "y":
             print()
@@ -1767,8 +1770,6 @@ game()
 
 #add potions as a class with different functions
 #rework moves
-#maybe could add trading with cichnamon
-#add cichbox loading into trainer_load
-#testik
+#maybe could add trading with Cichnamon
 
 #pouziti gpt na zjednoduseni tutorialu a napsani komandů na jeho vypsani, ktere jsem si potom upravil podle potreb
