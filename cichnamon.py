@@ -836,26 +836,16 @@ class Trainer:
             print("You opened up the cichbox!!")
         num = 0
 
-        while num < 1 or num > 3:
+        while num < 1 or num > 4:
             print("\t[1]Take out a Cichnamon")
             print("\t[2]Put a Cichnamon inside")
-            print("\t[3]Exit cichbox")
+            print("\t[3]Browse Cichnamon inside")
+            print("\t[4]Exit cichbox")
             num = get_num("\nChoose:\t", True)
 
         if num == 1:
             if len(self.cichbox) > 0:
-                i = 1
-                print()
-                for cichnamon in self.cichbox:
-                    if i != len(self.cichbox):
-                        print("[" + str(i) + "] ", end="")
-                        cichnamon.show_stats()
-                        print(", ")
-
-                    else:
-                        print("[" + str(i) + "] ", end="")
-                        cichnamon.show_stats()
-                    i += 1
+                self.show_cichbox()
 
                 cich_num = get_num("Which Cichnamon do you want to take out? [0 to go back]")
 
@@ -865,6 +855,7 @@ class Trainer:
                 if cich_num == 0:
                     print("You return back.")
                 else:
+                    print("You took out", self.cichbox[cich_num - 1].name + "!")
                     self.add_cichnamon(self.cichbox.pop(cich_num - 1))
             else:
                 print("You don't have any Cichnamon inside the cichbox!!") 
@@ -887,10 +878,26 @@ class Trainer:
                 print("You can only put a Cichnamon inside, if you have more than one with you!!")
             return True
         elif num == 3:
+            if len(self.cichbox) > 0:
+                self.show_cichbox()
+
+                cich_num = get_num("For which cichnamon do you want to show more stats? [0 to go back]")
+
+                while cich_num < 0 or cich_num > len(self.cichbox):
+                    cich_num = get_num("For which cichnamon do you want to show more stats? [0 to go back]")
+
+                if cich_num == 0:
+                    print("You return back.")
+                else:
+                    self.cichbox[cich_num - 1].show_stats(show_advanced = True, show_move_set = True)
+            else:
+                print("Your cichbox is empty!!")
+            return True
+        elif num == 4:
             print("You exit the cichbox\n")
 
 
-    def remove_cichnamon(self, cichnamon):
+    #def remove_cichnamon(self, cichnamon):
         if cichnamon in self.owned_cichnamon:
             self.owned_cichnamon.remove(cichnamon)
             cichnamon.owner = None
@@ -1173,6 +1180,20 @@ class Trainer:
 
         print("---                 ---")
 
+
+    def show_cichbox(self):
+        i = 1
+        print()
+        for cichnamon in self.cichbox:
+            if i != len(self.cichbox):
+                print("[" + str(i) + "] ", end="")
+                cichnamon.show_stats()
+                print(", ")
+            else:
+                print("[" + str(i) + "] ", end="")
+                cichnamon.show_stats()
+            i += 1
+        
 
     def show_stats(self, show_owned_cichnamon = False):
         print("\t--- Stats ---")
@@ -1543,14 +1564,18 @@ def go_cichcenter():
     print("Welcome to Cichcenter!!")
 
     for trainer in trainers:
+        center_choice = 0
         print("\n" + trainer.name + ", what do you want to do here?")
 
-        print("\t[1]Restore Cichnamon")
-        print("\t[2]Open cichbox")
-        print("\t[3]Restore and open cichbox")
+        while center_choice < 1 or center_choice > 4:
+            print("\t[1]Restore Cichnamon")
+            print("\t[2]Open cichbox")
+            print("\t[3]Restore and open cichbox")
+            print("\t[4]Do nothing")
 
-        center_choice = get_num("\nChoose:\t", True)
+            center_choice = get_num("\nChoose:\t", True)
 
+        
         if center_choice == 1:
             trainer.owned_cichnamon_restoration()
         elif center_choice == 2:
@@ -1563,6 +1588,8 @@ def go_cichcenter():
             go_back = trainer.cichbox_move()
             while go_back:
                 go_back = trainer.cichbox_move(False)
+        elif center_choice == 4:
+            print(trainer.name, "does nothing.")
      
 
 def find_cichnamon():
