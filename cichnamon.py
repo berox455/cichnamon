@@ -1742,6 +1742,6 @@ game()
 #rework moves
 #maybe could add trading with cichnamon
 #add cichbox loading into trainer_load
-#test
+#testik
 
 #pouziti gpt na zjednoduseni tutorialu a napsani komandů na jeho vypsani, ktere jsem si potom upravil podle potreb
