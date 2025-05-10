@@ -1,11 +1,11 @@
 # Cichnamon
-			--- This is a readme file for cichnamon.py ---
-    - depedencies of this python game: 
+			                --- This is a readme file for cichnamon.py ---
+    Depedencies of this python game: 
         - you need to isntall numpy
         - if you want to be able to save and load your progress, then you need to install jsonpickle
-    --- Tutorial ---
+                        --- Tutorial ---
     This game can be played with 2 or more players. 
-    If you see ... in the terminal, press enter to continue.
+    If you see "..." in the terminal, press enter to continue.
     At the very beginning you choose the number of players by creating exactly that many trainers.
     If enter the wrong number of trainers, don't worry, you can always either create a dummy trainer
     or create an additional trainer later.
@@ -23,14 +23,14 @@
     	Each moves has a number of uses, showed by it's "charge", if it reaches 0, 
       	it can no longer be used in battle. Each move also has a specific damage value, 
        	which also depends on type advantages. Fire beats grass etc.
-	There's also a chance that an attack will miss or that it will crit.
+	    There's also a chance that an attack will miss or that it will crit.
     	There will also be moves, which don't do damage but instead heal yourself 
       	or your ally cichnamon or just debuff your opponent. You can choose defense, 
-	where your cichnamon will gain a shield of a power, which depends on it's 
-  	defense and can only be chosen if it doesn't already have a shield active.
+	    where your cichnamon will gain a shield of a power, which depends on it's 
+        defense and can only be chosen if it doesn't already have a shield active.
     	You can also switch between your cichnamon, if you have more than one. 
       	(max number of cichnamon for one trainer is 6) Or you can run away,
-	which ends the battle and the trainer running away automatically loses.
+	    which ends the battle and the trainer running away automatically loses.
     	Once a fight has come to an end to winner gets money from the loser. 
      	(300 $ normally, 450 for running away)
 
